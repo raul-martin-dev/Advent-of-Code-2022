@@ -54,13 +54,45 @@ def score_calc(opponent,me):
             score += 3  
     return score
 
+def score_calc_2(opponent,me):
+    if me == 'X':
+        score = 0
+        if opponent == 'A':
+            score += 3
+        if opponent == 'B':
+            score += 1
+        if opponent == 'C':
+            score += 2
+    if me == 'Y':
+        score = 3
+        if opponent == 'A':
+            score += 1
+        if opponent == 'B':
+            score += 2
+        if opponent == 'C':
+            score += 3
+    if me == 'Z':
+        score = 6
+        if opponent == 'A':
+            score += 2
+        if opponent == 'B':
+            score += 3
+        if opponent == 'C':
+            score += 1  
+    return score
+
 with open('input.txt') as input_file:
     strategy = []
     for line in input_file:
         strategy.append(line.strip('\n').split(' '))
     scores = []
+    scores2 = []
     for element in strategy:
         score = score_calc(element[0], element[1])
+        score2 = score_calc_2(element[0], element[1])
         scores.append(score)
+        scores2.append(score2)
     total_score = sum(scores)
+    total_score2 = sum(scores2)
     print (total_score)
+    print (total_score2)
