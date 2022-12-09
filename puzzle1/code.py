@@ -54,5 +54,9 @@ with open('input.txt') as input_file:
         sum_elf = sum(elf)
         calories.append(sum_elf)
     maximal = np.max(calories)
+    calories = sorted(calories,reverse=True)
+    three_max = calories[0:3]
+    sum_top_tree = sum(three_max)
     print (maximal)
+    print (sum_top_tree)
 
