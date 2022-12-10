@@ -31,22 +31,43 @@
 
 import string
 import numpy as np
+from functools import reduce
 
 lower_dict = dict(zip(string.ascii_lowercase, range(1,27)))
 upper_dict = dict(zip(string.ascii_uppercase, range(27,53)))
 dictionary = lower_dict | upper_dict
 
-unique_items = []
+def part_one():
+    unique_items = []
+    with open('input.txt') as input_file:
+        for line in input_file:
+            rucksack = line.strip('\n')
+            first_comp = rucksack[0:len(rucksack)//2]
+            second_comp = rucksack[len(rucksack)//2:len(rucksack)]
+            first_comp = list(first_comp)
+            second_comp = list(second_comp)
+            common_value = np.intersect1d(first_comp, second_comp)
+            unique_items = [*unique_items, *common_value]
+    return unique_items
 
-with open('input.txt') as input_file:
-    for line in input_file:
-        rucksack = line.strip('\n')
-        first_comp = rucksack[0:len(rucksack)//2]
-        second_comp = rucksack[len(rucksack)//2:len(rucksack)]
-        first_comp = list(first_comp)
-        second_comp = list(second_comp)
-        common_value = np.intersect1d(first_comp, second_comp)
-        unique_items = [*unique_items, *common_value]
+def part_two():
+    unique_items = []
+    with open('input.txt') as input_file:
+        index = 0
+        rucksacks = []
+        for line in input_file:
+            index += 1
+            rucksack = list(line.strip('\n'))
+            rucksacks.append(rucksack)
+            if index == 3:
+                common_value = reduce(np.intersect1d,(rucksacks[0],rucksacks[1],rucksacks[2]))
+                unique_items = [*unique_items, *common_value]
+                rucksacks = []
+                index = 0
+
+    return unique_items
+
+unique_items = part_two()
 
 values = [dictionary[letter] for letter in unique_items]
 sumatory = sum(values)
